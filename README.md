@@ -1,2 +1,2 @@
-# WSOA3004_Assignment2
-Assignment 2 Repo
+# WSOA3004_Group 10
+Group 10 Repo
