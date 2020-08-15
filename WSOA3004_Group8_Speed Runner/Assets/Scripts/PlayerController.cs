@@ -6,9 +6,13 @@ public class PlayerController : MonoBehaviour
 {
 
     private float movementInputDirection;
+    private float vertInputDirection;
     private float jumpTimer;
     private float turnTimer;
     private float wallJumpTimer;
+    private float dashTimeLeft;
+    private float lastImageXpos;
+    private float lastDash = -100f;
 
     private int amountOfJumpsLeft;
     private int facingDirection = 1;
@@ -19,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isTouchingWall;
     private bool isWallSliding;
+    private bool isHovering;
+    private bool canHover;
     private bool canNormalJump;
     private bool canWallJump;
     private bool isAttemptingToJump;
@@ -26,6 +32,14 @@ public class PlayerController : MonoBehaviour
     private bool canMove;
     private bool canFlip;
     private bool hasWallJumped;
+    private bool isTouchingLedge;
+    private bool canClimbLedge = false;
+    private bool ledgeDetected;
+    private bool isDashing;
+
+    private Vector2 ledgePosBot;
+    private Vector2 ledgePos1;
+    private Vector2 ledgePos2;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -37,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius;
     public float wallCheckDistance;
     public float wallSlideSpeed;
+    public float hoveringSpeed;
     public float movementForceInAir;
     public float airDragMultiplier = 0.95f;
     public float variableJumpHeightMultiplier = 0.5f;
@@ -45,12 +60,21 @@ public class PlayerController : MonoBehaviour
     public float jumpTimerSet = 0.15f;
     public float turnTimerSet = 0.1f;
     public float wallJumpTimerSet = 0.5f;
+    //public float ledgeClimbXOffset1 = 0f;
+    //public float ledgeClimbYOffset1 = 0f;
+    //public float ledgeClimbXOffset2 = 0f;
+    //public float ledgeClimbYOffset2 = 0f;
+    public float dashTime;
+    public float dashSpeed;
+    public float distanceBetweenImages;
+    public float dashCoolDown;
 
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
 
     public Transform groundCheck;
     public Transform wallCheck;
+    public Transform ledgeCheck;
 
     public LayerMask whatIsGround;
     
@@ -69,8 +93,12 @@ public class PlayerController : MonoBehaviour
         CheckMovementDirection();
         UpdateAnimations();
         CheckIfCanJump();
-        CheckIfWallSliding();
         CheckJump();
+        CheckIfWallSliding();
+        CheckIfCanHover();
+        CheckIfHovering();
+        //CheckLedgeClimb();
+        CheckDash();
     }
 
     private void FixedUpdate()
@@ -79,9 +107,30 @@ public class PlayerController : MonoBehaviour
         CheckSurroundings();
     }
 
+    private void CheckIfCanHover()
+    {
+        if (isTouchingWall)
+        {
+            canHover = false;
+        }
+        
+    }
+
+    private void CheckIfHovering()
+    {
+        if(canHover && Input.GetButton("Jump") && rb.velocity.y < 0 )
+        {
+            isHovering = true;
+        }
+        else
+        {
+            isHovering = false;
+        }
+    }
+
     private void CheckIfWallSliding()
     {
-        if (isTouchingWall && movementInputDirection == facingDirection && rb.velocity.y < 0)
+        if (isTouchingWall && /*movementInputDirection == facingDirection &&*/ rb.velocity.y < 0 && !canClimbLedge && vertInputDirection != -1) //allows for player to instantly stick to wall when they jump uncomment to make it that you need to move towards the wall to slide 
         {
             isWallSliding = true;
         }
@@ -90,12 +139,59 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
         }
     }
+    /*
+    private void CheckLedgeClimb()
+    {
+        if(ledgeDetected && !canClimbLedge)
+        {
+            canClimbLedge = true;
+
+            if (isFacingRight)
+            {
+                ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + wallCheckDistance) - ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
+                ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x + wallCheckDistance) + ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
+            }
+            else
+            {
+                ledgePos1 = new Vector2(Mathf.Ceil(ledgePosBot.x - wallCheckDistance) + ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
+                ledgePos2 = new Vector2(Mathf.Ceil(ledgePosBot.x - wallCheckDistance) - ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
+            }
+
+            canMove = false;
+            canFlip = false;
+
+            anim.SetBool("canClimbLedge", canClimbLedge);
+        }
+
+        if (canClimbLedge)
+        {
+            transform.position = ledgePos1;
+        }
+    }
+
+    public void FinishLedgeClimb()
+    {
+        canClimbLedge = false;
+        transform.position = ledgePos2;
+        canMove = true;
+        canFlip = true;
+        ledgeDetected = false;
+        anim.SetBool("canClimbLedge", canClimbLedge);
+    }*/
 
     private void CheckSurroundings()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
+        isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, transform.right, wallCheckDistance, whatIsGround);
+
+        if(isTouchingWall && !isTouchingLedge && !ledgeDetected)
+        {
+            ledgeDetected = true;
+            ledgePosBot = wallCheck.position;
+        }
+        
     }
 
     private void CheckIfCanJump()
@@ -133,7 +229,7 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
 
-        if(rb.velocity.x != 0)
+        if(Mathf.Abs(rb.velocity.x) >= 0.01f)
         {
             isWalking = true;
         }
@@ -145,19 +241,21 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimations()
     {
-        //anim.SetBool("isWalking", isWalking);
-        //anim.SetBool("isGrounded", isGrounded);
-        //anim.SetFloat("yVelocity", rb.velocity.y);
-        //anim.SetBool("isWallSliding", isWallSliding);
+        anim.SetBool("isWalking", isWalking);
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetBool("isWallSliding", isWallSliding);
+        anim.SetBool("isHovering", isHovering);
     }
 
     private void CheckInput()
     {
         movementInputDirection = Input.GetAxisRaw("Horizontal");
+        vertInputDirection = Input.GetAxisRaw("Vertical");
 
         if (Input.GetButtonDown("Jump"))
         {
-            if(isGrounded || (amountOfJumpsLeft > 0 && isTouchingWall))
+            if(isGrounded || (amountOfJumpsLeft > 0 && !isTouchingWall))
             {
                 NormalJump();
             }
@@ -179,7 +277,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!canMove)
+        if (turnTimer >= 0)
         {
             turnTimer -= Time.deltaTime;
 
@@ -196,6 +294,57 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * variableJumpHeightMultiplier);
         }
 
+        if (Input.GetButtonDown("Dash"))
+        {
+            if(Time.time >= (lastDash + dashCoolDown))
+            AttemptToDash();
+        }
+
+    }
+
+    private void AttemptToDash()
+    {
+        isDashing = true;
+        dashTimeLeft = dashTime;
+        lastDash = Time.time;
+
+        PlayerAfterImagePool.Instance.GetFromPool();
+        lastImageXpos = transform.position.x;
+    }
+
+    public int GetFacingDirection()
+    {
+        return facingDirection;
+    }
+
+    private void CheckDash()
+    {
+        if (isDashing)
+        {
+            if(dashTimeLeft > 0)
+            {
+                canMove = false;
+                canFlip = false;
+                rb.velocity = new Vector2(dashSpeed * facingDirection, 0.0f);
+                dashTimeLeft -= Time.deltaTime;
+
+                if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
+                {
+                    PlayerAfterImagePool.Instance.GetFromPool();
+                    lastImageXpos = transform.position.x;
+                }
+            }
+
+            if(dashTimeLeft <= 0 || isTouchingWall)
+            {
+                isDashing = false;
+                canMove = true;
+                canFlip = true;
+
+                rb.velocity = Vector2.zero;
+            }
+            
+        }
     }
 
     private void CheckJump()
@@ -239,11 +388,13 @@ public class PlayerController : MonoBehaviour
     {
         if (canNormalJump)
         {
+            canHover = true;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             amountOfJumpsLeft--;
             jumpTimer = 0;
             isAttemptingToJump = false;
             checkJumpMultiplier = true;
+            Debug.Log("has JUmped");
         }
     }
 
@@ -251,6 +402,7 @@ public class PlayerController : MonoBehaviour
     {
         if (canWallJump)
         {
+            canHover = true;
             rb.velocity = new Vector2(rb.velocity.x, 0.0f);
             isWallSliding = false;
             amountOfJumpsLeft = amountOfJumps;
@@ -264,9 +416,9 @@ public class PlayerController : MonoBehaviour
             canMove = true;
             canFlip = true;
             hasWallJumped = true;
-            wallJumpTimer = wallJumpTimerSet;
+            wallJumpTimer = wallJumpTimerSet; 
             lastWallJumpDirection = -facingDirection;
-
+            Debug.Log("has WallJUmped");
         }
     }
 
@@ -290,6 +442,24 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
             }
         }
+
+        if(isHovering)
+        {
+            if(rb.velocity.y < -hoveringSpeed)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -hoveringSpeed);
+            }
+        }
+    }
+
+    public void DisableFlip()
+    {
+        canFlip = false;
+    }
+
+    public void EnableFlip()
+    {
+        canFlip = true;
     }
 
     private void Flip()
