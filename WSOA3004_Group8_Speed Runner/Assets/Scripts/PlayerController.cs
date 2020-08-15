@@ -60,10 +60,6 @@ public class PlayerController : MonoBehaviour
     public float jumpTimerSet = 0.15f;
     public float turnTimerSet = 0.1f;
     public float wallJumpTimerSet = 0.5f;
-    //public float ledgeClimbXOffset1 = 0f;
-    //public float ledgeClimbYOffset1 = 0f;
-    //public float ledgeClimbXOffset2 = 0f;
-    //public float ledgeClimbYOffset2 = 0f;
     public float dashTime;
     public float dashSpeed;
     public float distanceBetweenImages;
@@ -95,9 +91,7 @@ public class PlayerController : MonoBehaviour
         CheckIfCanJump();
         CheckJump();
         CheckIfWallSliding();
-        CheckIfCanHover();
         CheckIfHovering();
-        //CheckLedgeClimb();
         CheckDash();
     }
 
@@ -105,15 +99,6 @@ public class PlayerController : MonoBehaviour
     {
         ApplyMovement();
         CheckSurroundings();
-    }
-
-    private void CheckIfCanHover()
-    {
-        if (isTouchingWall)
-        {
-            canHover = false;
-        }
-        
     }
 
     private void CheckIfHovering()
@@ -139,45 +124,6 @@ public class PlayerController : MonoBehaviour
             isWallSliding = false;
         }
     }
-    /*
-    private void CheckLedgeClimb()
-    {
-        if(ledgeDetected && !canClimbLedge)
-        {
-            canClimbLedge = true;
-
-            if (isFacingRight)
-            {
-                ledgePos1 = new Vector2(Mathf.Floor(ledgePosBot.x + wallCheckDistance) - ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
-                ledgePos2 = new Vector2(Mathf.Floor(ledgePosBot.x + wallCheckDistance) + ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
-            }
-            else
-            {
-                ledgePos1 = new Vector2(Mathf.Ceil(ledgePosBot.x - wallCheckDistance) + ledgeClimbXOffset1, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset1);
-                ledgePos2 = new Vector2(Mathf.Ceil(ledgePosBot.x - wallCheckDistance) - ledgeClimbXOffset2, Mathf.Floor(ledgePosBot.y) + ledgeClimbYOffset2);
-            }
-
-            canMove = false;
-            canFlip = false;
-
-            anim.SetBool("canClimbLedge", canClimbLedge);
-        }
-
-        if (canClimbLedge)
-        {
-            transform.position = ledgePos1;
-        }
-    }
-
-    public void FinishLedgeClimb()
-    {
-        canClimbLedge = false;
-        transform.position = ledgePos2;
-        canMove = true;
-        canFlip = true;
-        ledgeDetected = false;
-        anim.SetBool("canClimbLedge", canClimbLedge);
-    }*/
 
     private void CheckSurroundings()
     {
@@ -440,6 +386,7 @@ public class PlayerController : MonoBehaviour
             if(rb.velocity.y < -wallSlideSpeed)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+                canHover = false;
             }
         }
 
