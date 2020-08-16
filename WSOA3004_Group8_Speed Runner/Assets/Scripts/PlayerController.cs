@@ -280,12 +280,15 @@ public class PlayerController : MonoBehaviour
 
     private void AttemptToDash()
     {
-        isDashing = true;
-        dashTimeLeft = dashTime;
-        lastDash = Time.time;
+        if(canDash)
+        {
+            isDashing = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
 
-        PlayerAfterImagePool.Instance.GetFromPool();
-        lastImageXpos = transform.position.x;
+            PlayerAfterImagePool.Instance.GetFromPool();
+            lastImageXpos = transform.position.x;
+        }
     }
 
     public int GetFacingDirection()
@@ -295,7 +298,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckDash()
     {
-        if (isDashing && canDash)
+        if (isDashing)
         {
             if(dashTimeLeft > 0)
             {
