@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float lastDash = -100f;
 
     private int amountOfJumpsLeft;
+    private int amountOfDashesLeft;
     private int facingDirection = 1;
     private int lastWallJumpDirection;
 
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool canClimbLedge = false;
     private bool ledgeDetected;
     private bool isDashing;
+    private bool canDash = true;
 
     private Vector2 ledgePosBot;
     private Vector2 ledgePos1;
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
 
     public int amountOfJumps = 1;
+    public int amountOfDashes = 1;
 
     public float movementSpeed = 10.0f;
     public float jumpForce = 16.0f;
@@ -70,7 +73,6 @@ public class PlayerController : MonoBehaviour
 
     public Transform groundCheck;
     public Transform wallCheck;
-    public Transform ledgeCheck;
 
     public LayerMask whatIsGround;
     
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         amountOfJumpsLeft = amountOfJumps;
+        amountOfDashesLeft = amountOfDashes;
         wallHopDirection.Normalize();
         wallJumpDirection.Normalize();
     }
@@ -92,6 +95,7 @@ public class PlayerController : MonoBehaviour
         CheckJump();
         CheckIfWallSliding();
         CheckIfHovering();
+        CheckIfCanDash();
         CheckDash();
     }
 
@@ -130,7 +134,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
-        isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, transform.right, wallCheckDistance, whatIsGround);
+        //isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, transform.right, wallCheckDistance, whatIsGround);
 
         if(isTouchingWall && !isTouchingLedge && !ledgeDetected)
         {
@@ -248,6 +252,32 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void CheckIfCanDash()
+    {
+        if(isGrounded)
+        {
+            amountOfDashesLeft = amountOfDashes;
+        }
+
+        if(amountOfDashesLeft <= 0)
+        {
+            canDash = false;
+        }
+        else
+        {
+            canDash = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+       if(other.gameObject.CompareTag("DashReset"))
+        {
+            amountOfDashesLeft++;
+            Debug.Log("DashyDash");
+        }
+    }
+
     private void AttemptToDash()
     {
         isDashing = true;
@@ -265,10 +295,12 @@ public class PlayerController : MonoBehaviour
 
     private void CheckDash()
     {
-        if (isDashing)
+        if (isDashing && canDash)
         {
             if(dashTimeLeft > 0)
             {
+
+              
                 canMove = false;
                 canFlip = false;
                 rb.velocity = new Vector2(dashSpeed * facingDirection, 0.0f);
@@ -283,13 +315,17 @@ public class PlayerController : MonoBehaviour
 
             if(dashTimeLeft <= 0 || isTouchingWall)
             {
+                amountOfDashesLeft--;
                 isDashing = false;
                 canMove = true;
                 canFlip = true;
 
                 rb.velocity = Vector2.zero;
             }
-            
+        }
+        else
+        {
+            isDashing = false;
         }
     }
 
