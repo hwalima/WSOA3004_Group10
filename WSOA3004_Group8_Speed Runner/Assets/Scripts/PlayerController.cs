@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -75,13 +76,23 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheck;
 
     public LayerMask whatIsGround;
-    
+
+    //stamina 
+
+    [SerializeField] private float stamina = 100f;
+    private float currentStamina;
+    [SerializeField] private Slider StaminaSlider;
+    [SerializeField] private float staminaUseRate;
+    [SerializeField] private float staminaRefillRate;
+    private bool canRefillStamina = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         amountOfJumpsLeft = amountOfJumps;
         amountOfDashesLeft = amountOfDashes;
+        currentStamina = stamina;
         wallHopDirection.Normalize();
         wallJumpDirection.Normalize();
     }
@@ -94,6 +105,9 @@ public class PlayerController : MonoBehaviour
         CheckIfCanJump();
         CheckJump();
         CheckIfWallSliding();
+        CheckStamina();
+        CheckRefillStamina();
+        RefillStamina();
         CheckIfHovering();
         CheckIfCanDash();
         CheckDash();
@@ -105,9 +119,14 @@ public class PlayerController : MonoBehaviour
         CheckSurroundings();
     }
 
+    private void CheckStamina()
+    {
+        StaminaSlider.value = currentStamina / stamina;
+    }
+
     private void CheckIfHovering()
     {
-        if(canHover && Input.GetButton("Jump") && rb.velocity.y < 0 )
+        if (canHover && Input.GetButton("Jump") && rb.velocity.y < 0 && currentStamina > 0f )
         {
             isHovering = true;
         }
@@ -252,6 +271,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void CheckRefillStamina()
+    {
+        if(isGrounded)
+        {
+            canRefillStamina = true;
+        }
+        else if(isHovering)
+        {
+            canRefillStamina = false;
+        }
+    }
+
+    private void RefillStamina()
+    {
+        if(canRefillStamina)
+        {
+            if (currentStamina < stamina)
+            {
+                currentStamina += staminaRefillRate * Time.deltaTime;
+            }
+        }
+    }
+
     private void CheckIfCanDash()
     {
         if(isGrounded)
@@ -274,6 +316,7 @@ public class PlayerController : MonoBehaviour
        if(other.gameObject.CompareTag("DashReset"))
         {
             amountOfDashesLeft++;
+            Destroy(other.gameObject);
             Debug.Log("DashyDash");
         }
     }
@@ -403,7 +446,7 @@ public class PlayerController : MonoBehaviour
             canFlip = true;
             hasWallJumped = true;
             wallJumpTimer = wallJumpTimerSet; 
-            lastWallJumpDirection = -facingDirection;
+            lastWallJumpDirection = -facingDirection; //gettting rid of this line lets the player jump up one wall but makes new issues
             Flip();
             Debug.Log("has WallJUmped");
         }
@@ -436,6 +479,7 @@ public class PlayerController : MonoBehaviour
             if(rb.velocity.y < -hoveringSpeed)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -hoveringSpeed);
+                currentStamina -= staminaUseRate * Time.deltaTime;
             }
         }
     }
