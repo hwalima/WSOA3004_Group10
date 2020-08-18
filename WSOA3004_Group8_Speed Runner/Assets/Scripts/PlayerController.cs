@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
           
             if (!isGrounded && movementInputDirection != facingDirection )
             {
-                Debug.Log("We got here");
+                
                 canMove = false;
                 canFlip = false;
 
@@ -256,6 +256,13 @@ public class PlayerController : MonoBehaviour
             {
                 canMove = true;
                 canFlip = true;
+                if (movementInputDirection == facingDirection)
+                {                   
+                    Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * -facingDirection, wallJumpForce * wallJumpDirection.y-1);
+                    rb.AddForce(forceToAdd, ForceMode2D.Impulse);
+                    
+                    Debug.Log("We got here " + forceToAdd);
+                }
             }
         }
 
@@ -448,7 +455,7 @@ public class PlayerController : MonoBehaviour
              canMove = false; // was canMove=true
             canFlip = true;
             hasWallJumped = true;
-            wallJumpTimer = wallJumpTimerSet;
+            wallJumpTimer = wallJumpTimerSet+0.5f;
             lastWallJumpDirection = -facingDirection; //gettting rid of this line lets the player jump up one wall but makes new issues
             Flip();
             //  Debug.Log("has WallJUmped");
@@ -515,5 +522,13 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
     }
-    
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(wallCheck && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            rb.velocity = Vector3.zero;
+        }
+    }
+
 }
