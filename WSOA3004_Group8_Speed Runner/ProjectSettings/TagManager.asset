@@ -6,6 +6,8 @@ TagManager:
   tags:
   - DashReset
   - Dash
+  - Breakable
+  - Wind
   layers:
   - Default
   - TransparentFX
