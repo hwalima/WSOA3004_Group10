@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed;
     public float distanceBetweenImages;
     public float dashCoolDown;
-    public float windForce;
 
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
