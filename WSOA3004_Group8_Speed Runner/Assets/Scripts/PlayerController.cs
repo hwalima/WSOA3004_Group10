@@ -77,6 +77,11 @@ public class PlayerController : MonoBehaviour
 
     public LayerMask whatIsGround;
 
+
+    private GameManager GM;
+    [SerializeField]
+    private GameObject respawnPoint;
+
     //stamina 
 
     [SerializeField] private float stamina = 100f;
@@ -90,11 +95,15 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        respawnPoint = GameObject.Find("RespawnPoint");
         amountOfJumpsLeft = amountOfJumps;
         amountOfDashesLeft = amountOfDashes;
         currentStamina = stamina;
         wallHopDirection.Normalize();
+        StaminaSlider = GameObject.Find("Canvas/StaminaSlider").GetComponent<Slider>();
         wallJumpDirection.Normalize();
+        transform.parent = this.transform;
     }
 
     void Update()
@@ -328,6 +337,25 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             Debug.Log("DashyDash");
         }
+
+        if(other.gameObject.CompareTag("Death"))
+        {
+            Die();
+        }
+
+        if(other.gameObject.CompareTag("CheckPoint"))
+        {
+            Debug.Log("CheckPoint");
+            respawnPoint.transform.position = other.gameObject.transform.position;
+        }
+    }
+
+    private void Die()
+    {
+        //Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);   //can be used for effects on death
+        //Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation);
+        GM.Respawn();
+        Destroy(gameObject);
     }
 
     private void AttemptToDash()
