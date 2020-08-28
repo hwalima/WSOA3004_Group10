@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckIfWallSliding()
     {
-        if (isTouchingWall && /*movementInputDirection == facingDirection &&*/ rb.velocity.y < 0 && !canClimbLedge && vertInputDirection != -1) //allows for player to instantly stick to wall when they jump uncomment to make it that you need to move towards the wall to slide 
+        if (isTouchingWall && /*movementInputDirection == facingDirection &&*/ rb.velocity.y < 0 && vertInputDirection != -1) //allows for player to instantly stick to wall when they jump uncomment to make it that you need to move towards the wall to slide 
         {
             isWallSliding = true;
         }
@@ -162,14 +162,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
-        //isTouchingLedge = Physics2D.Raycast(ledgeCheck.position, transform.right, wallCheckDistance, whatIsGround);
-
-        if (isTouchingWall && !isTouchingLedge && !ledgeDetected)
-        {
-            ledgeDetected = true;
-            ledgePosBot = wallCheck.position;
-        }
-
+        
     }
 
     private void CheckIfCanJump()
@@ -244,7 +237,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetButton("Horizontal") && isTouchingWall) // was getbuttondown
+        if (Input.GetButtonDown("Horizontal") && isTouchingWall) // was getbuttondown
         {
           
             if (!isGrounded && movementInputDirection != facingDirection )
@@ -261,17 +254,10 @@ public class PlayerController : MonoBehaviour
         {
             turnTimer -= Time.deltaTime;
 
-            if (turnTimer <= 0 && !isTouchingWall) //there was no !istouching wall
+            if (turnTimer <= 0) //there was no !istouching wall
             {
                 canMove = true;
                 canFlip = true;
-                if (movementInputDirection == facingDirection)
-                {                   
-                    Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * -facingDirection, wallJumpForce * wallJumpDirection.y-1);
-                    rb.AddForce(forceToAdd, ForceMode2D.Impulse);
-                    
-                    Debug.Log("We got here " + forceToAdd);
-                }
             }
         }
 
@@ -417,7 +403,11 @@ public class PlayerController : MonoBehaviour
         if (jumpTimer > 0)
         {
             //WallJump
-            if (!isGrounded && isTouchingWall)
+            if (!isGrounded && isTouchingWall && movementInputDirection != 0 && movementInputDirection != facingDirection)
+            {
+                WallJump();
+            }
+            else if(!isGrounded && isTouchingWall && (movementInputDirection == facingDirection || movementInputDirection == 0))
             {
                 WallJump();
             }
@@ -434,7 +424,7 @@ public class PlayerController : MonoBehaviour
 
         if (wallJumpTimer > 0)
         {
-            if (hasWallJumped && facingDirection == -lastWallJumpDirection)
+            if (hasWallJumped && movementInputDirection == -lastWallJumpDirection)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0.0f);
                 hasWallJumped = false;
@@ -474,17 +464,16 @@ public class PlayerController : MonoBehaviour
             amountOfJumpsLeft = amountOfJumps;
             amountOfJumpsLeft--;
             Vector2 forceToAdd = new Vector2(wallJumpForce * wallJumpDirection.x * -facingDirection, wallJumpForce * wallJumpDirection.y);
-            //  Debug.Log("facing direction "+-facingDirection);
             rb.AddForce(forceToAdd, ForceMode2D.Impulse);
             jumpTimer = 0;
             isAttemptingToJump = false;
             checkJumpMultiplier = true;
-            turnTimer = turnTimerSet; // was turntimer=0
-             canMove = false; // was canMove=true
+            turnTimer = 0;
+            canMove = true; 
             canFlip = true;
             hasWallJumped = true;
-            wallJumpTimer = wallJumpTimerSet+0.5f;
-            lastWallJumpDirection = -facingDirection; //gettting rid of this line lets the player jump up one wall but makes new issues
+            wallJumpTimer = wallJumpTimerSet;
+            lastWallJumpDirection = -facingDirection;
             Flip();
             //  Debug.Log("has WallJUmped");
         }
