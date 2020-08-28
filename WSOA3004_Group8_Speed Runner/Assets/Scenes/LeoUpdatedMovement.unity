@@ -8653,6 +8653,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2392435359510383169, guid: 01b57a27e59d59f43b6b7a55771598d3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2392435359510383170, guid: 01b57a27e59d59f43b6b7a55771598d3,
         type: 3}
       propertyPath: StaminaSlider
@@ -8726,6 +8731,21 @@ PrefabInstance:
     - target: {fileID: 2392435359510383173, guid: 01b57a27e59d59f43b6b7a55771598d3,
         type: 3}
       propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392435359510383173, guid: 01b57a27e59d59f43b6b7a55771598d3,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392435359510383173, guid: 01b57a27e59d59f43b6b7a55771598d3,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.98995423
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392435359510383173, guid: 01b57a27e59d59f43b6b7a55771598d3,
+        type: 3}
+      propertyPath: m_Color.b
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2392435359510383175, guid: 01b57a27e59d59f43b6b7a55771598d3,

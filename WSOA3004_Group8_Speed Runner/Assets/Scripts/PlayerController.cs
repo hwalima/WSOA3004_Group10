@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        GetComponent<Animator>().enabled = true;
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         respawnPoint = GameObject.Find("RespawnPoint");
         amountOfJumpsLeft = amountOfJumps;
