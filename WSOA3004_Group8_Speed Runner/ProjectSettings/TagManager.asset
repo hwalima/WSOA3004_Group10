@@ -9,6 +9,7 @@ TagManager:
   - Breakable
   - Death
   - CheckPoint
+  - Oneway
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - Ground
   - Player
-  - 
+  - Obstaclefloor
   - 
   - 
   - 
