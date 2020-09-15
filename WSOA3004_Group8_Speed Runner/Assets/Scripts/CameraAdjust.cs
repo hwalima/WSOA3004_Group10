@@ -20,6 +20,7 @@ public class CameraAdjust : MonoBehaviour
         
         if (lerpCam == true && prevCam == false) //if the player goes forward, it'll swap to the camera size for the next area
         {
+            
             t += speed * Time.deltaTime;
             cam.m_Lens.OrthographicSize = Mathf.Lerp(cam.m_Lens.OrthographicSize, camSize, speed * Time.deltaTime);
             if (t >= 1)
