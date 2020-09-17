@@ -5,9 +5,10 @@ using UnityEngine;
 public class StickController : MonoBehaviour
 {
     // Start is called before the first frame update
+    GameManager gameManager;
     void Start()
     {
-        
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class StickController : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            gameManager.CollectedStick(1);
             Destroy(this.gameObject);
         }
     }

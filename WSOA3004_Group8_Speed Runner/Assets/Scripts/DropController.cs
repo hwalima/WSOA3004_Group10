@@ -8,6 +8,8 @@ public class DropController : MonoBehaviour
     public bool respawn = true;
     public float waitRespawn;
     private Vector2 startPt;
+
+    public bool allowSwitchToGroundLayer = true;
     // Start is called before the first frame update
     void Awake()
     {
@@ -32,7 +34,11 @@ public class DropController : MonoBehaviour
 
     IEnumerator DropWait()
     {
-        this.gameObject.layer = LayerMask.NameToLayer("Ground");
+        if (allowSwitchToGroundLayer)
+        {
+            this.gameObject.layer = LayerMask.NameToLayer("Ground");
+        }
+
         yield return new WaitForSeconds(waitTime);
         if (this.GetComponent<Rigidbody2D>())
         {

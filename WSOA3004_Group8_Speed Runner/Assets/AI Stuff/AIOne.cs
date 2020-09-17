@@ -25,7 +25,18 @@ public class AIOne : MonoBehaviour
 
     public float maxChaseTime = 20f;
     float chaseTimer = 20f;
-    public Transform newSleepSpot;
+   // public Transform newSleepSpot;
+
+    public GameObject areaObj1;
+    public GameObject areaObj2;
+
+    Vector2 startPosition;
+
+    bool isRock=false;
+    public Transform rockDetectObj;
+    float rockdetectRadius = 0.25f;
+    public LayerMask rockLayer;
+    //checks if there is that rock that stops the bats from pursuing the player;
     private void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -35,6 +46,7 @@ public class AIOne : MonoBehaviour
         InvokeRepeating("UpdatePath", 0, 0.5f);
         InvokeRepeating("ToggleAwakenness", 0, 2);
         chaseTimer = maxChaseTime;
+        startPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -85,43 +97,34 @@ public class AIOne : MonoBehaviour
                     transform.localScale = new Vector3(1f, 1f, 1f);
                 }
             }
-            chaseTimer -= Time.deltaTime;
-            
-        }
+            // chaseTimer -= Time.deltaTime;
+            isRock = Physics2D.OverlapCircle(rockDetectObj.position, rockdetectRadius, rockLayer);
+            if (isRock)
+            {
+                seeker.StartPath(rb2d.position, startPosition, OnPathComplete);
+            }
 
-        if (chaseTimer <= 0)
+            if (transform.position.y > 14)
+            {
+                seeker.StartPath(rb2d.position, startPosition, OnPathComplete);
+            }
+        }
+        if (target == null)
         {
-            //go find a spot to go back to sleep
-            seeker.StartPath(rb2d.position, newSleepSpot.position, OnPathComplete);
-            //currentWayPoint = 0;
-            if (currentWayPoint >= path.vectorPath.Count)
-            {
-                endOfPath = true;
-                chaseTimer = maxChaseTime;
-                return;
-            }
-            else
-            {
-                endOfPath = false;
-            }
-            Vector2 direction = ((Vector2)path.vectorPath[currentWayPoint] - rb2d.position).normalized;
-            Vector2 force = direction * speed * Time.deltaTime;
-            rb2d.AddForce(force);
-            float distance = Vector2.Distance(rb2d.position, path.vectorPath[currentWayPoint]);
-            if (distance < nextWayPointDistance)
-            {
-                currentWayPoint++;
-            }
-
-            
+            transform.position = startPosition;
             isChasingPlayer = false;
-           
         }
+     
 
         if (aiAwake)
         {
-            Collider2D[] whatIsInSphere = Physics2D.OverlapCircleAll(transform.position, radiusOfCircle);
-            foreach (Collider2D seekPlayer in whatIsInSphere)
+            //Collider2D[] whatIsInSphere = Physics2D.OverlapCircleAll(transform.position, radiusOfCircle);
+            Vector2 theAreaObj1 = new Vector2(areaObj1.transform.position.x, areaObj1.transform.position.y);
+            Vector2 theAreaObj2 = new Vector2(areaObj2.transform.position.x, areaObj2.transform.position.y);
+
+            Collider2D[] whatIsInRectangularArea=Physics2D.OverlapAreaAll(theAreaObj1,theAreaObj2);
+            //flash a light or something
+            foreach (Collider2D seekPlayer in whatIsInRectangularArea)
             {
                 if (seekPlayer.gameObject.tag == "Player")
                 {
@@ -160,14 +163,15 @@ public class AIOne : MonoBehaviour
         aiAwake = !aiAwake;
     }
 
-    void OnDrawGizmosSelected()
+  
+  /*  void OnDrawGizmosSelected()
     {
         if (aiAwake)
         {  // Draw a yellow sphere at the transform's position
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(transform.position, radiusOfCircle);
         }
-    }
+    }*/
 }
 
 
@@ -226,6 +230,37 @@ public class AIOne : MonoBehaviour
    {
        yield return new WaitForSeconds(screamTime);
        chase = true;
+   }
+   */
+
+
+/*  if (chaseTimer <= 0)
+   {
+       //go find a spot to go back to sleep
+       seeker.StartPath(rb2d.position, newSleepSpot.position, OnPathComplete);
+       //currentWayPoint = 0;
+       if (currentWayPoint >= path.vectorPath.Count)
+       {
+           endOfPath = true;
+           chaseTimer = maxChaseTime;
+           return;
+       }
+       else
+       {
+           endOfPath = false;
+       }
+       Vector2 direction = ((Vector2)path.vectorPath[currentWayPoint] - rb2d.position).normalized;
+       Vector2 force = direction * speed * Time.deltaTime;
+       rb2d.AddForce(force);
+       float distance = Vector2.Distance(rb2d.position, path.vectorPath[currentWayPoint]);
+       if (distance < nextWayPointDistance)
+       {
+           currentWayPoint++;
+       }
+
+
+       isChasingPlayer = false;
+
    }
    */
 #endregion

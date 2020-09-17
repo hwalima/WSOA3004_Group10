@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,15 +13,23 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float respawnTime;
 
+    [SerializeField] 
+    int collectedSticks=0;
+    public TextMeshProUGUI sticksCollectedText;
+
     private float respawnTimeStart;
 
     private bool respawn;
 
     private CinemachineVirtualCamera CVC;
 
+
+   public GameObject popUpText;
     private void Start()
     {
+       
         CVC = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
+
     }
 
     private void Update()
@@ -42,5 +51,27 @@ public class GameManager : MonoBehaviour
             CVC.m_Follow = playerTemp.transform;
             respawn = false;
         }
+    }
+
+    public void CollectedStick(int sticksCollected)
+    {
+        collectedSticks = collectedSticks + sticksCollected;
+        sticksCollectedText.text = collectedSticks.ToString();
+        //fetch from StickController script
+        //incase one stick is worth more than one value
+    }
+
+    IEnumerator PopUpText()
+    {
+
+        popUpText.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        popUpText.SetActive(false);
+
+
+    }
+    public void SwitchOnPopUpText()
+    {
+        StartCoroutine(PopUpText());
     }
 }

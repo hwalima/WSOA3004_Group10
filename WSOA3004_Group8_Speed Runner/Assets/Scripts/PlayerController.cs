@@ -39,6 +39,10 @@ public class PlayerController : MonoBehaviour
     private bool ledgeDetected;
     private bool isDashing;
     private bool canDash = true;
+    private bool onFallingBridge = false;
+    private bool bridgePopUpTextOpen = false;
+
+    
 
     private Vector2 ledgePosBot;
     private Vector2 ledgePos1;
@@ -82,6 +86,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject respawnPoint;
 
+
     //stamina 
 
     [SerializeField] private float stamina = 100f;
@@ -109,23 +114,46 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        CheckInput();
-        CheckMovementDirection();
-        UpdateAnimations();
-        CheckIfCanJump();
-        CheckJump();
-        CheckIfWallSliding();
-        CheckStamina();
-        CheckRefillStamina();
-        RefillStamina();
-        CheckIfHovering();
-        CheckIfCanDash();
-        CheckDash();
+        if (!onFallingBridge)
+        {
+            CheckInput();
+            CheckMovementDirection();
+            UpdateAnimations();
+            CheckIfCanJump();
+            CheckJump();
+            CheckIfWallSliding();
+            CheckStamina();
+            CheckRefillStamina();
+            RefillStamina();
+            CheckIfHovering();
+            CheckIfCanDash();
+            CheckDash();
+        }
+
+
+      if (onFallingBridge)
+        {
+            if (Input.anyKeyDown)
+            {
+                if (!bridgePopUpTextOpen)
+                {
+                    Debug.Log("we got here");
+                    GM.SwitchOnPopUpText();
+                    bridgePopUpTextOpen = true;
+                }
+            }
+            if (isGrounded)
+            {
+                onFallingBridge = false;
+
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
+        if (!onFallingBridge)
+        { ApplyMovement(); }
         CheckSurroundings();
     }
 
@@ -325,7 +353,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("DashyDash");
         }
 
-        if(other.gameObject.CompareTag("Death"))
+        if(other.gameObject.CompareTag("Death")|| other.gameObject.tag== "DadDali")
         {
             Die();
         }
@@ -336,7 +364,7 @@ public class PlayerController : MonoBehaviour
             respawnPoint.transform.position = other.gameObject.transform.position;
         }
     }
-
+    
     private void Die()
     {
         //Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);   //can be used for effects on death
@@ -547,6 +575,28 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector3.zero;
         }
+
+        if (collision.gameObject.CompareTag("Death"))
+        {
+            Die();
+        }
+
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "BridgeBreakAway")
+        {
+            StartCoroutine(GetOnToBridgeBreakAway());
+        }
+    }
+    IEnumerator GetOnToBridgeBreakAway()
+    {
+        yield return new WaitForSeconds(0.2f);
+        onFallingBridge = true;
+        rb.velocity = new Vector2(0, -hoveringSpeed*2);
+    }
+  
+
 
 }
