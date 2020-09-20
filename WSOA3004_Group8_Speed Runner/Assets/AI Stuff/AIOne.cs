@@ -36,6 +36,8 @@ public class AIOne : MonoBehaviour
     public Transform rockDetectObj;
     float rockdetectRadius = 0.25f;
     public LayerMask rockLayer;
+
+    public GameObject aiChaseLight;
     //checks if there is that rock that stops the bats from pursuing the player;
     private void Start()
     {
@@ -44,9 +46,10 @@ public class AIOne : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
         InvokeRepeating("UpdatePath", 0, 0.5f);
-        InvokeRepeating("ToggleAwakenness", 0, 2);
+        InvokeRepeating("ToggleAwakenness", 0, Random.Range(0.5f,2));
         chaseTimer = maxChaseTime;
         startPosition = transform.position;
+        aiChaseLight.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -161,6 +164,15 @@ public class AIOne : MonoBehaviour
     void ToggleAwakenness()
     {
         aiAwake = !aiAwake;
+        if (aiAwake)
+        {
+            aiChaseLight.SetActive(true);
+            
+        }
+        else
+        {
+            aiChaseLight.SetActive(false);
+        }
     }
 
   

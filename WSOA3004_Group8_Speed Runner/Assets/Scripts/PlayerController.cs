@@ -353,7 +353,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("DashyDash");
         }
 
-        if(other.gameObject.CompareTag("Death")|| other.gameObject.tag== "DadDali")
+        if(other.gameObject.CompareTag("Death"))
         {
             Die();
         }

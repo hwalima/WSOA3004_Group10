@@ -31,7 +31,7 @@ public class GeneralDaliManager : MonoBehaviour
         {
             if (babyDali.GetComponent<DaliHeadControl>().isAttacking==true)
             {
-                Debug.Log("here");
+               // Debug.Log("here");
                 orderOfAttack.Add(babyDali.GetComponent<DaliHeadControl>());
                 orderOfAttack.Add(momDali.GetComponent<DaliHeadControl>());
                 orderOfAttack.Add(dadDali.GetComponent<DaliHeadControl>());
@@ -55,40 +55,45 @@ public class GeneralDaliManager : MonoBehaviour
 
         }
 
-        if (orderOfAttack.Count > 0)
+        if (orderOfAttack.Count > 1)
         {
-
+            
             if (next)
             {
                 orderOfAttack.Remove(orderOfAttack[attackNo]);
+                Debug.Log(orderOfAttack.Count +"shuyfbweuf" );
                 orderOfAttack[attackNo].FindPlayer();
                 next = false;
                
             }
-            for (int i = 0; i < orderOfAttack.Count-1; i++)
+            if (!next)
             {
-                if (i == attackNo)
+                for (int i = 0; i < orderOfAttack.Count; i++)
                 {
-                    orderOfAttack[i].isAttacking = true;
-                    orderOfAttack[i].waitBeforeAttacking = false;
-                }
-                else
-                {
-                    orderOfAttack[i].isAttacking = false;
-                    orderOfAttack[i].waitBeforeAttacking = true;
-                }
+                   // Debug.Log(i + " i" + orderOfAttack.Count + " order of attack"+orderOfAttack.Count);
+                //    Debug.Log(orderOfAttack.Count + "count number " + i + " i");
+                    if (i == attackNo)
+                    {
+                        orderOfAttack[i].isAttacking = true;
+                        orderOfAttack[i].waitBeforeAttacking = false;
+                    }
+                    else
+                    {
+                        orderOfAttack[i].isAttacking = false;
+                        orderOfAttack[i].waitBeforeAttacking = true;
+                    }
 
+                }
             }
 
            
         }
 
-        if (orderOfAttack.Count <= 0)
-        {
-           
+        if (orderOfAttack.Count == 0)
+        {           
             if (beginAttacking == true)
             {
-                Debug.Log("there are " + orderOfAttack.Count + " objects left");
+               // Debug.Log("there are " + orderOfAttack.Count + " objects left");
                 Destroy(gameObject);
             }
         }

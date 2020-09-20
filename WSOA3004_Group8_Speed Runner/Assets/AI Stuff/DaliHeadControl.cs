@@ -74,7 +74,7 @@ public class DaliHeadControl : MonoBehaviour
             if (dad)
             {
                 transform.position = Vector3.MoveTowards(transform.position, predictedPosition, speed * Time.deltaTime);
-                if (transform.position == playersInitialPosition)
+                if (transform.position == predictedPosition)
                 {
                     StartCoroutine(WaitBeforeDestroy());
                 }
@@ -86,8 +86,13 @@ public class DaliHeadControl : MonoBehaviour
     {
         if (!playerPositionRecorded)
         {
-            playersInitialPosition = player.transform.position;
-            playerPositionRecorded = true;
+            if (player != null)
+            {
+                playersInitialPosition = player.transform.position;
+            }
+                playerPositionRecorded = true;
+          
+
         }
     }
 
@@ -95,12 +100,16 @@ public class DaliHeadControl : MonoBehaviour
     {
         if (!playerPositionRecorded)
         {
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-            float estimatedTime = distance / speed;
-            Rigidbody2D playerrb = player.GetComponent<Rigidbody2D>();
-            Debug.Log(playerrb);
-            predictedPosition = new Vector2(player.transform.position.x, player.transform.position.y) + (playerrb.velocity * estimatedTime);
-            playerPositionRecorded = true;
+            if (player != null)
+            {
+                float distance = Vector3.Distance(player.transform.position, transform.position);
+                float estimatedTime = distance / speed;
+                Rigidbody2D playerrb = player.GetComponent<Rigidbody2D>();
+                Debug.Log(playerrb);
+                predictedPosition = new Vector2(player.transform.position.x, player.transform.position.y) + (playerrb.velocity * estimatedTime);
+            }
+                playerPositionRecorded = true;
+            
         }
     }
 
