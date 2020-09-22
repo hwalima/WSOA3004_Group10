@@ -13,8 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float respawnTime;
 
-    [SerializeField] 
-    int collectedSticks=0;
+    public int collectedSticks=0;
     public TextMeshProUGUI sticksCollectedText;
 
     private float respawnTimeStart;
@@ -57,8 +56,6 @@ public class GameManager : MonoBehaviour
     {
         collectedSticks = collectedSticks + sticksCollected;
         sticksCollectedText.text = collectedSticks.ToString();
-        //fetch from StickController script
-        //incase one stick is worth more than one value
     }
 
     IEnumerator PopUpText()

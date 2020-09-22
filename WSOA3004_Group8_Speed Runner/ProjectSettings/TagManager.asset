@@ -15,6 +15,7 @@ TagManager:
   - PopUpTextPos
   - AIStoppingRock
   - DadDali
+  - Feather
   layers:
   - Default
   - TransparentFX

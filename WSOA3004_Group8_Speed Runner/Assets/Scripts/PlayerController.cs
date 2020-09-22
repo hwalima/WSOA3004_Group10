@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -86,7 +87,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject respawnPoint;
 
-
     //stamina 
 
     [SerializeField] private float stamina = 100f;
@@ -96,6 +96,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float staminaRefillRate;
     private bool canRefillStamina = false;
 
+    [SerializeField] int collectedFeathers = 0;
+    [SerializeField] private Text CollectedFeathersText;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -104,12 +107,12 @@ public class PlayerController : MonoBehaviour
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         respawnPoint = GameObject.Find("RespawnPoint");
         amountOfJumpsLeft = amountOfJumps;
-        amountOfDashesLeft = amountOfDashes;
         currentStamina = stamina;
         wallHopDirection.Normalize();
         StaminaSlider = GameObject.Find("Canvas/StaminaSlider").GetComponent<Slider>();
         wallJumpDirection.Normalize();
         transform.parent = this.transform;
+        
     }
 
     void Update()
@@ -148,6 +151,11 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+
+      if(GM.collectedSticks >= 1)
+        {
+            amountOfJumps = 2;
+        }
     }
 
     private void FixedUpdate()
@@ -164,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckIfHovering()
     {
-        if (canHover && Input.GetButton("Jump") && rb.velocity.y < 0 && currentStamina > 0f)
+        if (canHover && Input.GetButton("Jump") && rb.velocity.y < 0 && currentStamina > 0f && GM.collectedSticks >= 4)
         {
             isHovering = true;
         }
@@ -338,7 +346,7 @@ public class PlayerController : MonoBehaviour
         {
             canDash = false;
         }
-        else
+        else if(GM.collectedSticks >= 2 && amountOfDashesLeft > 0)
         {
             canDash = true;
         }
@@ -362,6 +370,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("CheckPoint");
             respawnPoint.transform.position = other.gameObject.transform.position;
+        }
+
+        if (other.gameObject.CompareTag("Feather"))
+        {
+            Destroy(other.gameObject);
+            GM.CollectedStick(1);
+            
         }
     }
     
@@ -432,11 +447,11 @@ public class PlayerController : MonoBehaviour
         if (jumpTimer > 0)
         {
             //WallJump
-            if (!isGrounded && isTouchingWall && movementInputDirection != 0 && movementInputDirection != facingDirection)
+            if (!isGrounded && isTouchingWall && movementInputDirection != 0 && movementInputDirection != facingDirection && GM.collectedSticks >= 3)
             {
                 WallJump();
             }
-            else if(!isGrounded && isTouchingWall && (movementInputDirection == facingDirection || movementInputDirection == 0))
+            else if(!isGrounded && isTouchingWall && (movementInputDirection == facingDirection || movementInputDirection == 0) && GM.collectedSticks >= 3)
             {
                 WallJump();
             }
