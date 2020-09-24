@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-      if(GM.collectedSticks >= 1)
+      if(GM.collectedSticks >= 2)
         {
             amountOfJumps = 2;
         }
@@ -346,7 +346,7 @@ public class PlayerController : MonoBehaviour
         {
             canDash = false;
         }
-        else if(GM.collectedSticks >= 2 && amountOfDashesLeft > 0)
+        else if(GM.collectedSticks >= 1 && amountOfDashesLeft > 0)
         {
             canDash = true;
         }
