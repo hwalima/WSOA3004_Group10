@@ -80,6 +80,36 @@ TextureImporter:
   - first:
       213: -2982607404577643437
     second: Tiles_Background_25
+  - first:
+      213: 7136702114996238730
+    second: Tiles_Background_26
+  - first:
+      213: 6399960402472428207
+    second: Tiles_Background_27
+  - first:
+      213: -2820100737271035583
+    second: Tiles_Background_28
+  - first:
+      213: 2917058953768280471
+    second: Tiles_Background_29
+  - first:
+      213: -8625392693147663441
+    second: Tiles_Background_30
+  - first:
+      213: -4304330156318101457
+    second: Tiles_Background_31
+  - first:
+      213: 4205307118442549303
+    second: Tiles_Background_32
+  - first:
+      213: -6143865737852529182
+    second: Tiles_Background_33
+  - first:
+      213: -1821354090891985633
+    second: Tiles_Background_34
+  - first:
+      213: -6195051873681614087
+    second: Tiles_Background_35
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,7 +139,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -142,7 +172,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -154,7 +184,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -166,7 +196,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -174,11 +204,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -234,7 +264,7 @@ TextureImporter:
       name: Tiles_Background_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 256
         y: 384
         width: 128
         height: 128
@@ -255,7 +285,7 @@ TextureImporter:
       name: Tiles_Background_3
       rect:
         serializedVersion: 2
-        x: 768
+        x: 384
         y: 384
         width: 128
         height: 128
@@ -276,7 +306,7 @@ TextureImporter:
       name: Tiles_Background_4
       rect:
         serializedVersion: 2
-        x: 896
+        x: 512
         y: 384
         width: 128
         height: 128
@@ -297,7 +327,7 @@ TextureImporter:
       name: Tiles_Background_5
       rect:
         serializedVersion: 2
-        x: 1024
+        x: 640
         y: 384
         width: 128
         height: 128
@@ -318,8 +348,8 @@ TextureImporter:
       name: Tiles_Background_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
+        x: 768
+        y: 384
         width: 128
         height: 128
       alignment: 0
@@ -339,8 +369,8 @@ TextureImporter:
       name: Tiles_Background_7
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
+        x: 896
+        y: 384
         width: 128
         height: 128
       alignment: 0
@@ -360,8 +390,8 @@ TextureImporter:
       name: Tiles_Background_8
       rect:
         serializedVersion: 2
-        x: 512
-        y: 256
+        x: 1024
+        y: 384
         width: 128
         height: 128
       alignment: 0
@@ -381,7 +411,7 @@ TextureImporter:
       name: Tiles_Background_9
       rect:
         serializedVersion: 2
-        x: 640
+        x: 0
         y: 256
         width: 128
         height: 128
@@ -402,7 +432,7 @@ TextureImporter:
       name: Tiles_Background_10
       rect:
         serializedVersion: 2
-        x: 768
+        x: 128
         y: 256
         width: 128
         height: 128
@@ -423,8 +453,8 @@ TextureImporter:
       name: Tiles_Background_11
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 256
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -444,8 +474,8 @@ TextureImporter:
       name: Tiles_Background_12
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
+        x: 384
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -466,7 +496,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
-        y: 128
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -487,7 +517,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 640
-        y: 128
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -508,7 +538,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 768
-        y: 128
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -529,7 +559,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 896
-        y: 128
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -549,8 +579,8 @@ TextureImporter:
       name: Tiles_Background_17
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 1024
+        y: 256
         width: 128
         height: 128
       alignment: 0
@@ -570,8 +600,8 @@ TextureImporter:
       name: Tiles_Background_18
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
+        x: 0
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -591,8 +621,8 @@ TextureImporter:
       name: Tiles_Background_19
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
+        x: 128
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -612,8 +642,8 @@ TextureImporter:
       name: Tiles_Background_20
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
+        x: 256
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -633,8 +663,8 @@ TextureImporter:
       name: Tiles_Background_21
       rect:
         serializedVersion: 2
-        x: 512
-        y: 0
+        x: 384
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -654,8 +684,8 @@ TextureImporter:
       name: Tiles_Background_22
       rect:
         serializedVersion: 2
-        x: 640
-        y: 0
+        x: 512
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -675,8 +705,8 @@ TextureImporter:
       name: Tiles_Background_23
       rect:
         serializedVersion: 2
-        x: 768
-        y: 0
+        x: 640
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -696,8 +726,8 @@ TextureImporter:
       name: Tiles_Background_24
       rect:
         serializedVersion: 2
-        x: 896
-        y: 0
+        x: 768
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -717,8 +747,8 @@ TextureImporter:
       name: Tiles_Background_25
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 0
+        x: 896
+        y: 128
         width: 128
         height: 128
       alignment: 0
@@ -730,6 +760,216 @@ TextureImporter:
       bones: []
       spriteID: 35423b93e56ab96d0800000000000000
       internalID: -2982607404577643437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_26
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 128
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a89312003c8aa0360800000000000000
+      internalID: 7136702114996238730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa26fedd31a31d850800000000000000
+      internalID: 6399960402472428207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_28
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 149842c225dfcd8d0800000000000000
+      internalID: -2820100737271035583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_29
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7912b38c9a97b7820800000000000000
+      internalID: 2917058953768280471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_30
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa30fac7b037c4880800000000000000
+      internalID: -8625392693147663441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_31
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2078a43782f344c0800000000000000
+      internalID: -4304330156318101457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_32
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73090362b804c5a30800000000000000
+      internalID: 4205307118442549303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_33
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e55b9bb9aa9cbaa0800000000000000
+      internalID: -6143865737852529182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_34
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1dbd22ba1049b6e0800000000000000
+      internalID: -1821354090891985633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tiles_Background_35
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fad618c421c60aa0800000000000000
+      internalID: -6195051873681614087
       vertices: []
       indices: 
       edges: []
