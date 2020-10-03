@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     public LayerMask whatIsGround;
 
+    public bool hasResetDash = false;
 
     private GameManager GM;
     [SerializeField]
@@ -352,13 +353,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator RespawnDashReset(Collider2D other, int time)
+    {
+        yield return new WaitForSeconds(time);
+        other.gameObject.SetActive(true);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("DashReset"))
         {
             amountOfDashesLeft++;
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             Debug.Log("DashyDash");
+            StartCoroutine(RespawnDashReset(other, 2));
         }
 
         if(other.gameObject.CompareTag("Death"))
