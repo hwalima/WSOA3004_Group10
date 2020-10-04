@@ -112,10 +112,10 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 731
-  m_MinSize: {x: 881, y: 492}
-  m_MaxSize: {x: 16006, y: 14042}
+  m_MinSize: {x: 880, y: 492}
+  m_MaxSize: {x: 16005, y: 14042}
   vertical: 0
-  controlID: 10425
+  controlID: 5090
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 605, y: 492}
   m_MaxSize: {x: 12005, y: 14042}
   vertical: 1
-  controlID: 10426
+  controlID: 4968
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 605, y: 221}
   m_MaxSize: {x: 12005, y: 4021}
   vertical: 0
-  controlID: 10427
+  controlID: 4969
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -184,7 +184,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 402
+    width: 480
     height: 460
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
@@ -208,9 +208,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 402
+    x: 480
     y: 0
-    width: 450
+    width: 372
     height: 460
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
-  m_MaximizeOnPlay: 0
+  m_MaximizeOnPlay: 1
   m_UseMipMap: 0
   m_VSyncEnabled: 0
   m_Gizmos: 0
@@ -416,15 +416,15 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73.6
-    width: 401
+    width: 479
     height: 439
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 14}
-      m_SelectedIDs: b245ffff
-      m_LastClickedID: 0
-      m_ExpandedIDs: 5efbffff14470000
+      scrollPos: {x: 0, y: 62}
+      m_SelectedIDs: 16480000
+      m_LastClickedID: 18454
+      m_ExpandedIDs: 5efbffff4247000048490000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -469,9 +469,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 402.4
+    x: 480
     y: 73.6
-    width: 448
+    width: 370
     height: 439
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
@@ -484,9 +484,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 5.2131176, y: 14.829325, z: -143.97583}
+    m_Target: {x: 158.3427, y: 19.6372, z: -4.3913136}
     speed: 2
-    m_Value: {x: 5.640721, y: 15.18612, z: -143.93825}
+    m_Value: {x: 158.3427, y: 19.6372, z: -4.3913136}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -536,9 +536,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 9.956103
+    m_Target: 41.64296
     speed: 2
-    m_Value: 10.42524
+    m_Value: 41.64296
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -700,20 +700,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/AudioAndLighting/new sounds
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/AudioAndLighting/new sounds
   m_LastFoldersGridSize: 96
-  m_LastProjectPath: D:\Github\WSOA3004_Group8\WSOA3004_Group8_Speed Runner
+  m_LastProjectPath: D:\WSOA3004_Group8\WSOA3004_Group8_Speed Runner
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 126}
-    m_SelectedIDs: 14550000
-    m_LastClickedID: 21780
-    m_ExpandedIDs: 000000007e440000125000001450000000ca9a3b
+    scrollPos: {x: 0, y: 31}
+    m_SelectedIDs: dc520000
+    m_LastClickedID: 21212
+    m_ExpandedIDs: 000000007e440000b0510000b2510000ca510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -741,7 +741,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007e440000125000001450000000ca9a3b
+    m_ExpandedIDs: 000000007e440000b0510000b2510000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -862,7 +862,7 @@ MonoBehaviour:
   m_SequenceHierarchy: {fileID: 0}
   m_HierarchySplitterPerc: 0.15
   m_SequencePath:
-    m_SelectionRoot: 18922
+    m_SelectionRoot: 0
     m_SubElements: []
 --- !u!114 &20
 MonoBehaviour:
@@ -901,7 +901,7 @@ MonoBehaviour:
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 635
 --- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
