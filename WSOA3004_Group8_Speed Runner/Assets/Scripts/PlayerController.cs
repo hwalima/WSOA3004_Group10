@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     private bool onFallingBridge = false;
     private bool bridgePopUpTextOpen = false;
-
+    private bool isFlappingSound = false;
     
 
     private Vector2 ledgePosBot;
@@ -99,6 +100,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] int collectedFeathers = 0;
     [SerializeField] private Text CollectedFeathersText;
+
+   
 
     void Start()
     {
@@ -181,6 +184,19 @@ public class PlayerController : MonoBehaviour
         {
             isHovering = false;
         }
+
+        if(currentStamina<0 && !isGrounded)
+        {
+            //flapping wings in distress sound
+            FindObjectOfType<AudioManager>().MakeSound("Falling");
+            isFlappingSound = true;
+        }
+
+        if (isFlappingSound && isGrounded)
+        {
+            FindObjectOfType<AudioManager>().StopSound("Falling");
+            isFlappingSound = false;
+        }
     }
 
     private void CheckIfWallSliding()
@@ -200,6 +216,8 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
+
+      
         
     }
 
@@ -273,6 +291,7 @@ public class PlayerController : MonoBehaviour
                 jumpTimer = jumpTimerSet;
                 isAttemptingToJump = true;
             }
+            FindObjectOfType<AudioManager>().MakeSound("Jump");
         }
 
         if (Input.GetButtonDown("Horizontal") && isTouchingWall) // was getbuttondown
@@ -597,12 +616,16 @@ public class PlayerController : MonoBehaviour
         if(wallCheck && collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             rb.velocity = Vector3.zero;
+            FindObjectOfType<AudioManager>().MakeSound("Land");
         }
 
         if (collision.gameObject.CompareTag("Death"))
         {
             Die();
         }
+      
+      
+        
 
     }
 

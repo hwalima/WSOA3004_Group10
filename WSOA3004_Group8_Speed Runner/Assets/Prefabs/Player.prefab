@@ -128,6 +128,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  hasResetDash: 0
   respawnPoint: {fileID: 0}
   stamina: 100
   StaminaSlider: {fileID: 0}
