@@ -16,6 +16,8 @@ TagManager:
   - AIStoppingRock
   - DadDali
   - Feather
+  - Water
+  - SpikeyBush
   layers:
   - Default
   - TransparentFX

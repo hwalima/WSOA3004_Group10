@@ -328,6 +328,10 @@ public class PlayerController : MonoBehaviour
         {
             if (Time.time >= (lastDash + dashCoolDown))
                 AttemptToDash();
+            if (canDash)
+            {
+                FindObjectOfType<AudioManager>().MakeSound("Dash");
+            }
         }
 
     }
@@ -387,8 +391,18 @@ public class PlayerController : MonoBehaviour
             Debug.Log("DashyDash");
             StartCoroutine(RespawnDashReset(other, 2));
         }
+        if (other.gameObject.tag == "Water")
+        {
+            FindObjectOfType<AudioManager>().MakeSound("Splash");
+           
+        }
 
-        if(other.gameObject.CompareTag("Death"))
+        if (other.gameObject.tag == "SpikeyBush")
+        {
+            FindObjectOfType<AudioManager>().MakeSound("Ouch");
+          
+        }
+        if (other.gameObject.CompareTag("Death"))
         {
             Die();
         }
@@ -618,17 +632,17 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector3.zero;
             FindObjectOfType<AudioManager>().MakeSound("Land");
         }
-
+      
         if (collision.gameObject.CompareTag("Death"))
         {
             Die();
         }
-      
-      
+
+       
         
 
     }
-
+ 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "BridgeBreakAway")
