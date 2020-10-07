@@ -543,3 +543,4 @@ D:\Unity Projects\WSOA3004_Group8\WSOA3004_Group8_Speed Runner\obj\Debug\AstarPa
 D:\Unity Projects\WSOA3004_Group8\WSOA3004_Group8_Speed Runner\obj\Debug\AstarPathfindingProject.csproj.CopyComplete
 D:\Unity Projects\WSOA3004_Group8\WSOA3004_Group8_Speed Runner\obj\Debug\AstarPathfindingProject.dll
 D:\Unity Projects\WSOA3004_Group8\WSOA3004_Group8_Speed Runner\obj\Debug\AstarPathfindingProject.pdb
+D:\Unity Projects\WSOA3004_Group8\WSOA3004_Group8_Speed Runner\Temp\bin\Debug\ICSharpCode.NRefactory.dll
