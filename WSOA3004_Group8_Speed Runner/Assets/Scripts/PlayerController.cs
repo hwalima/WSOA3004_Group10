@@ -273,6 +273,7 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isWallSliding", isWallSliding);
         anim.SetBool("isHovering", isHovering);
+        anim.SetBool("isDashing", isDashing);
     }
 
     private void CheckInput()
