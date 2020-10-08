@@ -38,6 +38,8 @@ public class AIOne : MonoBehaviour
     public LayerMask rockLayer;
 
     public GameObject aiChaseLight;
+
+    bool moveToStart = false;
     //checks if there is that rock that stops the bats from pursuing the player;
     private void Start()
     {
@@ -104,14 +106,24 @@ public class AIOne : MonoBehaviour
             isRock = Physics2D.OverlapCircle(rockDetectObj.position, rockdetectRadius, rockLayer);
             if (isRock)
             {
-                seeker.StartPath(rb2d.position, startPosition, OnPathComplete);
+              
+                 isChasingPlayer = false;
+                moveToStart = true;
+                
             }
 
-            if (transform.position.y > 14)
+            if (transform.position.y > 115)
             {
                 seeker.StartPath(rb2d.position, startPosition, OnPathComplete);
+                isChasingPlayer = false;
+
             }
         }
+        if (moveToStart)
+        {
+            seeker.StartPath(rb2d.position, startPosition, OnPathComplete);
+        }
+        
         if (target == null)
         {
             transform.position = startPosition;
@@ -160,6 +172,7 @@ public class AIOne : MonoBehaviour
     {
         yield return new WaitForSeconds(0.56f);
         findPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+        transform.position = startPosition;
     }
     void ToggleAwakenness()
     {
@@ -174,16 +187,16 @@ public class AIOne : MonoBehaviour
             aiChaseLight.SetActive(false);
         }
     }
+    
 
-  
-  /*  void OnDrawGizmosSelected()
-    {
-        if (aiAwake)
-        {  // Draw a yellow sphere at the transform's position
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(transform.position, radiusOfCircle);
-        }
-    }*/
+    /*  void OnDrawGizmosSelected()
+      {
+          if (aiAwake)
+          {  // Draw a yellow sphere at the transform's position
+              Gizmos.color = Color.yellow;
+              Gizmos.DrawSphere(transform.position, radiusOfCircle);
+          }
+      }*/
 }
 
 

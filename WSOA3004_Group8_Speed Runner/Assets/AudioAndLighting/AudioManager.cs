@@ -40,6 +40,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         MakeSound("Main music");
+     //   MakeSound("Ruins music");
     }
 
 
@@ -67,4 +68,6 @@ public class AudioManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     */
+
+   
 }
