@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/NoelForestLevel.unity
+    guid: 97b2b51e1dac8c94bb6bae0adb291e49
   m_configObjects: {}
