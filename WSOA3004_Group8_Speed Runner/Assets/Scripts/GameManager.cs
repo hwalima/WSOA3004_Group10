@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         collectedSticks = collectedSticks + sticksCollected;
         sticksCollectedText.text = collectedSticks.ToString();
         //playableDirector.Play();
-        //StartCoroutine(NewAbilityText());
+        StartCoroutine(NewAbilityText());
 
     }
 
