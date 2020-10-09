@@ -33,6 +33,7 @@ public class AudioManager : MonoBehaviour
             ssound.audSource.volume = ssound.volume;
             ssound.audSource.pitch = ssound.pitch;
             ssound.audSource.loop = ssound.loop;
+            ssound.audSource.spatialBlend = ssound.spatialBlend;
 
         }
     }
@@ -40,6 +41,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         MakeSound("Main music");
+
      //   MakeSound("Ruins music");
     }
 
