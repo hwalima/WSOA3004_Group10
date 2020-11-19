@@ -18,6 +18,7 @@ TagManager:
   - Feather
   - Water
   - SpikeyBush
+  - CinemachineCam
   layers:
   - Default
   - TransparentFX

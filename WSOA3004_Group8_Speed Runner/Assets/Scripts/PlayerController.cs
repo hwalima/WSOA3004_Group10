@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Tilemaps;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,6 +45,9 @@ public class PlayerController : MonoBehaviour
     private bool onFallingBridge = false;
     private bool bridgePopUpTextOpen = false;
     private bool isFlappingSound = false;
+    private bool isFeatherCollectionPose = false;
+    private bool isCutscene = false;
+
     
 
     private Vector2 ledgePosBot;
@@ -74,6 +78,8 @@ public class PlayerController : MonoBehaviour
     public float dashSpeed;
     public float distanceBetweenImages;
     public float dashCoolDown;
+    float originalCameraOrthographicSize=8.46f;
+    float cutsceneOrthoGraphicSize=3.44f;
 
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
@@ -101,8 +107,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int collectedFeathers = 0;
     [SerializeField] private Text CollectedFeathersText;
 
-   
+    RigidbodyConstraints2D originalRBConstraints;
 
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -116,12 +123,12 @@ public class PlayerController : MonoBehaviour
         StaminaSlider = GameObject.Find("Canvas/StaminaSlider").GetComponent<Slider>();
         wallJumpDirection.Normalize();
         transform.parent = this.transform;
-        
+        originalRBConstraints = rb.constraints;
     }
 
     void Update()
     {
-        if (!onFallingBridge)
+        if (!onFallingBridge && !isCutscene)
         {
             CheckInput();
             CheckMovementDirection();
@@ -159,6 +166,21 @@ public class PlayerController : MonoBehaviour
       if(GM.collectedSticks >= 2)
         {
             amountOfJumps = 2;
+        }
+
+      //end a cutscene
+        if (isCutscene)
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                isCutscene = false;
+                isFeatherCollectionPose = false;
+                anim.SetBool("isFeatherCollectionPose", false);
+                rb.constraints = originalRBConstraints;
+                anim.Play("Idle");
+                CinemachineVirtualCamera cam = GameObject.FindGameObjectWithTag("CinemachineCam").GetComponent<CinemachineVirtualCamera>();
+                cam.m_Lens.OrthographicSize = originalCameraOrthographicSize;
+            }
         }
     }
 
@@ -268,12 +290,16 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimations()
     {
-        anim.SetBool("isWalking", isWalking);
-        anim.SetBool("isGrounded", isGrounded);
-        anim.SetFloat("yVelocity", rb.velocity.y);
-        anim.SetBool("isWallSliding", isWallSliding);
-        anim.SetBool("isHovering", isHovering);
-        anim.SetBool("isDashing", isDashing);
+       
+            anim.SetBool("isWalking", isWalking);
+            anim.SetBool("isGrounded", isGrounded);
+            anim.SetFloat("yVelocity", rb.velocity.y);
+            anim.SetBool("isWallSliding", isWallSliding);
+            anim.SetBool("isHovering", isHovering);
+            anim.SetBool("isDashing", isDashing);
+
+        
+        
     }
 
     private void CheckInput()
@@ -416,8 +442,23 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Feather"))
         {
+          
+            anim.Play("feather collected");
+            Debug.Log("should have started");
             Destroy(other.gameObject);
             GM.CollectedStick(1);
+          isFeatherCollectionPose = true;
+          anim.SetBool("isFeatherCollectionPose", isFeatherCollectionPose);
+
+            if(collectedFeathers<6)
+            {
+                isCutscene = true;
+                CinemachineVirtualCamera cam = GameObject.FindGameObjectWithTag("CinemachineCam").GetComponent<CinemachineVirtualCamera>();
+                cam.m_Lens.OrthographicSize = cutsceneOrthoGraphicSize;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+               
+            }
+           
             
         }
     }
