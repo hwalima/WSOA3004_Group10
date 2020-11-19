@@ -32,16 +32,60 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI unlockedAbilityTextHolder;
     public string[] UnlockedAbilityWhatToSay;
 
+    public string[] AbilityTutorial;
+    public TMP_Text tutorialTextComponent;
+    public bool isCutscene;
+
+    public TextMeshProUGUI lToContinue;
+
     private void Start()
     {
        
         CVC = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
         unlockedAbilityTextHolder.gameObject.SetActive(false);
+       
+        
     }
 
     private void Update()
     {
         CheckRespawn();
+        if (isCutscene)
+        {
+            tutorialTextComponent.ForceMeshUpdate();
+            var textInfo = tutorialTextComponent.textInfo;
+            for (int i = 0; i < textInfo.characterCount; ++i)
+            {
+                var charInfo = textInfo.characterInfo[i];
+                if (!charInfo.isVisible)
+                {
+                    continue;
+                }
+                var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+
+                for (int j = 0; j < 4; j++)
+                {
+                    var orig = verts[charInfo.vertexIndex + j];
+                    verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.time * 2f + orig.x + 0.01f) * 10f, 0);
+
+                }
+            }
+
+            for (int i = 0; i < textInfo.meshInfo.Length; ++i)
+            {
+                var meshInfo = textInfo.meshInfo[i];
+                meshInfo.mesh.vertices = meshInfo.vertices;
+                tutorialTextComponent.UpdateGeometry(meshInfo.mesh, i);
+            }
+
+
+        }
+        if(isCutscene&& Input.GetKeyDown(KeyCode.L))
+        {
+            isCutscene = false;
+            tutorialTextComponent.gameObject.SetActive(false);
+            lToContinue.gameObject.SetActive(false);
+        }
     }
 
     public void Respawn()
@@ -67,6 +111,9 @@ public class GameManager : MonoBehaviour
         //playableDirector.Play();
         StartCoroutine(NewAbilityText());
 
+        isCutscene = true;
+
+
     }
 
     IEnumerator PopUpText()
@@ -86,9 +133,20 @@ public class GameManager : MonoBehaviour
     IEnumerator NewAbilityText()
     {
         unlockedAbilityTextHolder.gameObject.SetActive(true);
+        unlockedAbilityTextHolder.gameObject.transform.position = Camera.main.WorldToScreenPoint(GameObject.FindGameObjectWithTag("Yay i can Text Pos").transform.position);
         unlockedAbilityTextHolder.text = UnlockedAbilityWhatToSay[collectedSticks - 1];
-
+        tutorialTextComponent.gameObject.SetActive(true);
+        tutorialTextComponent.gameObject.transform.position= Camera.main.WorldToScreenPoint(GameObject.FindGameObjectWithTag("tutorialTextPos").transform.position);
+        tutorialTextComponent.text = AbilityTutorial[collectedSticks - 1];
+        lToContinue.gameObject.SetActive(true);
+        lToContinue.transform.position = Camera.main.WorldToScreenPoint(GameObject.FindGameObjectWithTag("Player").transform.position)+new Vector3(120,-120f);
         yield return new WaitForSeconds(1f);
         unlockedAbilityTextHolder.gameObject.SetActive(false);
+    }
+
+    public void LastCheckPoint()
+    {
+        GameObject currentPlayer = GameObject.FindGameObjectWithTag("Player");
+        currentPlayer.transform.position = respawnPoint.transform.position;
     }
 }

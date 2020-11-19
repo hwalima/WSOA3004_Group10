@@ -70,4 +70,13 @@ public class Pause : MonoBehaviour
       //  FindObjectOfType<AudioManager>().MakeSound("Select");
         paused = true;
     }
+
+    public void LastCheckpoint()
+    {
+
+        FindObjectOfType<GameManager>().LastCheckPoint();
+        paused = false;
+        pausedUI.SetActive(false);
+        Time.timeScale = 1;
+    }
 }

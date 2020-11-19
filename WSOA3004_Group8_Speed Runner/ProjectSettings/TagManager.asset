@@ -19,6 +19,8 @@ TagManager:
   - Water
   - SpikeyBush
   - CinemachineCam
+  - tutorialTextPos
+  - Yay i can Text Pos
   layers:
   - Default
   - TransparentFX
