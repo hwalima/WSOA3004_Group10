@@ -19,13 +19,15 @@ public class MenuManager : MonoBehaviour
         
     }
 
-   public void Play()
+    public void Play()
     {
         SceneManager.LoadScene("NoelForestLevel");
+        GameManager.hopToRuins = false;
     }
-   public void SkipToRuins()
+    public void SkipToRuins()
     {
-
+        GameManager.hopToRuins = true;
+        SceneManager.LoadScene("NoelForestLevel");
     }
     public void MeetTheTeam()
     {

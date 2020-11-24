@@ -38,13 +38,23 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI lToContinue;
 
+   public static bool hopToRuins=false;
+    Vector2 playerPosHopToRuins =new Vector2(624.55f,127.56f);
+
     private void Start()
     {
        
         CVC = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
         unlockedAbilityTextHolder.gameObject.SetActive(false);
-       
-        
+
+        if (hopToRuins)
+        {
+            //skip through to go to ruins section
+            GameObject.FindGameObjectWithTag("Player").transform.position = playerPosHopToRuins;
+            collectedSticks = 5;
+            Debug.Log("hop=true");
+           // hopToRuins = false;
+        }
     }
 
     private void Update()
@@ -86,6 +96,8 @@ public class GameManager : MonoBehaviour
             tutorialTextComponent.gameObject.SetActive(false);
             lToContinue.gameObject.SetActive(false);
         }
+
+       
     }
 
     public void Respawn()

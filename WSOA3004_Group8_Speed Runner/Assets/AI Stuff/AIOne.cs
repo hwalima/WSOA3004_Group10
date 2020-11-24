@@ -64,6 +64,7 @@ public class AIOne : MonoBehaviour
         {
             if (target == null)
             {
+                isChasingPlayer = false;
                 StartCoroutine(FindPlayerWait());
                 if (findPlayer != null)
                 {
@@ -107,6 +108,12 @@ public class AIOne : MonoBehaviour
                     transform.localScale = new Vector3(1f, 1f, 1f);
                 }
             }
+
+           
+
+          
+
+           
             // chaseTimer -= Time.deltaTime;
             isRock = Physics2D.OverlapCircle(rockDetectObj.position, rockdetectRadius, rockLayer);
             if (isRock)
@@ -134,7 +141,10 @@ public class AIOne : MonoBehaviour
             transform.position = startPosition;
             isChasingPlayer = false;
         }
-     
+        while (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
 
         if (aiAwake)
         {
