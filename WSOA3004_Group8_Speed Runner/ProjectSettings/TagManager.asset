@@ -82,3 +82,6 @@ TagManager:
   - name: Foreground Decoration
     uniqueID: 4249873363
     locked: 0
+  - name: Particles
+    uniqueID: 1913919943
+    locked: 0

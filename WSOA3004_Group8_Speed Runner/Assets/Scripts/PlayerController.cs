@@ -91,6 +91,11 @@ public class PlayerController : MonoBehaviour
 
     public bool hasResetDash = false;
 
+    public GameObject waterParticle;
+    public GameObject leavesParticle;
+    public ParticleSystem walkParticle;
+    public ParticleSystem wallParticle;
+
     private GameManager GM;
     [SerializeField]
     private GameObject respawnPoint;
@@ -124,6 +129,7 @@ public class PlayerController : MonoBehaviour
         wallJumpDirection.Normalize();
         transform.parent = this.transform;
         originalRBConstraints = rb.constraints;
+        
     }
 
     void Update()
@@ -142,6 +148,7 @@ public class PlayerController : MonoBehaviour
             CheckIfHovering();
             CheckIfCanDash();
             CheckDash();
+            UpdateParticles();
         }
 
 
@@ -226,10 +233,13 @@ public class PlayerController : MonoBehaviour
         if (isTouchingWall && /*movementInputDirection == facingDirection &&*/ rb.velocity.y < 0 && vertInputDirection != -1) //allows for player to instantly stick to wall when they jump uncomment to make it that you need to move towards the wall to slide 
         {
             isWallSliding = true;
+            
+
         }
         else
         {
             isWallSliding = false;
+            
         }
     }
 
@@ -267,6 +277,37 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void UpdateParticles()
+    {
+        if (isWallSliding == true)
+        {
+            if (!wallParticle.isPlaying)
+            {
+                wallParticle.Play();
+            }
+        }
+        else if (isWallSliding == false)
+        {
+            
+                wallParticle.Stop();
+            
+            
+        }
+
+        if (isWalking == true && isGrounded == true)
+        {
+            if (!walkParticle.isPlaying)
+            {
+                walkParticle.Play();
+            }
+            
+        }
+        else
+        {
+            walkParticle.Stop();
+        }
+    }
+
     private void CheckMovementDirection()
     {
         if (isFacingRight && movementInputDirection < 0)
@@ -281,10 +322,12 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(rb.velocity.x) >= 0.01f)
         {
             isWalking = true;
+            
         }
         else
         {
             isWalking = false;
+            
         }
     }
 
@@ -349,6 +392,7 @@ public class PlayerController : MonoBehaviour
         {
             checkJumpMultiplier = false;
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * variableJumpHeightMultiplier);
+            
         }
 
         if (Input.GetButtonDown("Dash"))
@@ -421,7 +465,8 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Water")
         {
             FindObjectOfType<AudioManager>().MakeSound("Splash");
-           
+            Instantiate(waterParticle, this.transform.position, Quaternion.identity);
+
         }
 
         if (other.gameObject.tag == "SpikeyBush")
@@ -585,6 +630,7 @@ public class PlayerController : MonoBehaviour
     {
         if (canWallJump)
         {
+            
             canHover = true;
             rb.velocity = new Vector2(rb.velocity.x, 0.0f);
             isWallSliding = false;
@@ -621,10 +667,12 @@ public class PlayerController : MonoBehaviour
 
         if (isWallSliding)
         {
+            
             if (rb.velocity.y < -wallSlideSpeed)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
                 canHover = false;
+                
             }
         }
 
@@ -677,11 +725,24 @@ public class PlayerController : MonoBehaviour
       
         if (collision.gameObject.CompareTag("Death"))
         {
+            Instantiate(leavesParticle, this.transform.position, Quaternion.identity);
+            if (collision.gameObject.GetComponent<Animator>())
+            {
+                //Debug.Log("spikey");
+                collision.gameObject.GetComponent<Animator>().SetTrigger("bounce");
+                collision.gameObject.GetComponent<Animator>().SetTrigger("idle");
+            }
             Die();
+
+            
+
+           
         }
 
        
-        
+
+
+
 
     }
  
