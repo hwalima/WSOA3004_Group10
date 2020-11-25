@@ -35,15 +35,26 @@ public class GameManager : MonoBehaviour
     public string[] AbilityTutorial;
     public TMP_Text tutorialTextComponent;
     public bool isCutscene;
+   // int index=0;
+    public float typingSpeed=0.01f;
+    bool hasWrittenTutorialText=false;
+
 
     public TextMeshProUGUI lToContinue;
 
    public static bool hopToRuins=false;
-    Vector2 playerPosHopToRuins =new Vector2(624.55f,127.56f);
+    Vector2 playerPosHopToRuins =new Vector2(621.47f, 126.16f);
+
+    public GameObject respawnPointParticles;
+
+
 
     private void Start()
     {
-       
+        if (Time.timeScale != 1)
+        {
+            Time.timeScale = 1;
+        }
         CVC = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
         unlockedAbilityTextHolder.gameObject.SetActive(false);
 
@@ -62,30 +73,11 @@ public class GameManager : MonoBehaviour
         CheckRespawn();
         if (isCutscene)
         {
-            tutorialTextComponent.ForceMeshUpdate();
-            var textInfo = tutorialTextComponent.textInfo;
-            for (int i = 0; i < textInfo.characterCount; ++i)
+            if (!hasWrittenTutorialText)
             {
-                var charInfo = textInfo.characterInfo[i];
-                if (!charInfo.isVisible)
-                {
-                    continue;
-                }
-                var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
-
-                for (int j = 0; j < 4; j++)
-                {
-                    var orig = verts[charInfo.vertexIndex + j];
-                    verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.time * 2f + orig.x + 0.01f) * 10f, 0);
-
-                }
-            }
-
-            for (int i = 0; i < textInfo.meshInfo.Length; ++i)
-            {
-                var meshInfo = textInfo.meshInfo[i];
-                meshInfo.mesh.vertices = meshInfo.vertices;
-                tutorialTextComponent.UpdateGeometry(meshInfo.mesh, i);
+                hasWrittenTutorialText = true;
+                StartCoroutine(TypeNewAbility());
+              
             }
 
 
@@ -94,7 +86,9 @@ public class GameManager : MonoBehaviour
         {
             isCutscene = false;
             tutorialTextComponent.gameObject.SetActive(false);
+            unlockedAbilityTextHolder.gameObject.SetActive(false);
             lToContinue.gameObject.SetActive(false);
+            hasWrittenTutorialText = false;
         }
 
        
@@ -108,10 +102,13 @@ public class GameManager : MonoBehaviour
 
     private void CheckRespawn()
     {
+       
+     
         if (Time.time >= respawnTimeStart + respawnTime && respawn)
         {
-            var playerTemp = Instantiate(player, respawnPoint.transform.position, respawnPoint.transform.rotation);
-            CVC.m_Follow = playerTemp.transform;
+            StartCoroutine(StartParticles());
+          //  var playerTemp = Instantiate(player, respawnPoint.transform.position, respawnPoint.transform.rotation);
+            // CVC.m_Follow = playerTemp.transform;
             respawn = false;
         }
     }
@@ -149,11 +146,11 @@ public class GameManager : MonoBehaviour
         unlockedAbilityTextHolder.text = UnlockedAbilityWhatToSay[collectedSticks - 1];
         tutorialTextComponent.gameObject.SetActive(true);
         tutorialTextComponent.gameObject.transform.position= Camera.main.WorldToScreenPoint(GameObject.FindGameObjectWithTag("tutorialTextPos").transform.position);
-        tutorialTextComponent.text = AbilityTutorial[collectedSticks - 1];
+       // tutorialTextComponent.text = AbilityTutorial[collectedSticks - 1];
         lToContinue.gameObject.SetActive(true);
         lToContinue.transform.position = Camera.main.WorldToScreenPoint(GameObject.FindGameObjectWithTag("Player").transform.position)+new Vector3(120,-120f);
         yield return new WaitForSeconds(1f);
-        unlockedAbilityTextHolder.gameObject.SetActive(false);
+      
     }
 
     public void LastCheckPoint()
@@ -161,4 +158,53 @@ public class GameManager : MonoBehaviour
         GameObject currentPlayer = GameObject.FindGameObjectWithTag("Player");
         currentPlayer.transform.position = respawnPoint.transform.position;
     }
+    IEnumerator StartParticles()
+    {
+        respawnPointParticles.SetActive(true);
+        respawnPointParticles.transform.position = respawnPoint.transform.position;
+        yield return new WaitForSeconds(0.8f);
+        var playerTemp = Instantiate(player, respawnPoint.transform.position, respawnPoint.transform.rotation);
+        CVC.m_Follow = playerTemp.transform;
+        yield return new WaitForSeconds(0.3f);
+        respawnPointParticles.SetActive(false);
+    }
+
+    IEnumerator TypeNewAbility()
+    {
+
+          foreach (char letter in AbilityTutorial[collectedSticks-1].ToCharArray())
+            {
+            tutorialTextComponent.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+            }
+    }
 }
+
+#region squiggly text incase Ive deleted something serious
+
+/*  tutorialTextComponent.ForceMeshUpdate();
+      var textInfo = tutorialTextComponent.textInfo;
+      for (int i = 0; i < textInfo.characterCount; ++i)
+      {
+          var charInfo = textInfo.characterInfo[i];
+          if (!charInfo.isVisible)
+          {
+              continue;
+          }
+          var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+
+          for (int j = 0; j < 4; j++)
+          {
+              var orig = verts[charInfo.vertexIndex + j];
+              verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.time * 2f + orig.x + 0.01f) * 10f, 0);
+
+          }
+      }
+
+      for (int i = 0; i < textInfo.meshInfo.Length; ++i)
+      {
+          var meshInfo = textInfo.meshInfo[i];
+          meshInfo.mesh.vertices = meshInfo.vertices;
+          tutorialTextComponent.UpdateGeometry(meshInfo.mesh, i);
+      }*/
+#endregion

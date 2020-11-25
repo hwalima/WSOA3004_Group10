@@ -50,9 +50,20 @@ public class RockBehaviour : MonoBehaviour
                 transform.position = initialPosition;
             }
         }
-        if (player == null)
+       /* if (player == null)
         {
             StartCoroutine(WaitForPlayerToRespawn());
+        }
+        */
+        while (player == null)
+        {
+            if (GameObject.FindGameObjectWithTag("Player") == null)
+
+            { break; }
+
+            else if (GameObject.FindGameObjectWithTag("Player") != null)
+            { player = GameObject.FindGameObjectWithTag("Player").transform; }
+
         }
     }
 
@@ -64,9 +75,9 @@ public class RockBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForPlayerToRespawn()
+    /*IEnumerator WaitForPlayerToRespawn()
     {
-        yield return new WaitForSeconds(0.56f);
+        yield return new WaitForSeconds(2f);
         player = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+    }*/
 }

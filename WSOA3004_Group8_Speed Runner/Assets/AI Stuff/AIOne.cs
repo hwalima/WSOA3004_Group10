@@ -143,7 +143,13 @@ public class AIOne : MonoBehaviour
         }
         while (target == null)
         {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
+            if (GameObject.FindGameObjectWithTag("Player") == null)
+
+            { break; }
+
+            else if(GameObject.FindGameObjectWithTag("Player") != null)
+            { target = GameObject.FindGameObjectWithTag("Player").transform; }
+
         }
 
         if (aiAwake)
@@ -185,9 +191,12 @@ public class AIOne : MonoBehaviour
     }
   IEnumerator FindPlayerWait()
     {
-        yield return new WaitForSeconds(0.56f);
-        findPlayer = GameObject.FindGameObjectWithTag("Player").transform;
-        transform.position = startPosition;
+        yield return new WaitForSeconds(0.2f);
+        if (target != null)
+        {
+            findPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+            transform.position = startPosition;
+        }
     }
     void ToggleAwakenness()
     {

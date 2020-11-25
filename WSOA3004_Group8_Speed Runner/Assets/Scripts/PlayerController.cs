@@ -466,7 +466,7 @@ public class PlayerController : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().MakeSound("Splash");
             Instantiate(waterParticle, this.transform.position, Quaternion.identity);
-
+            Die();
         }
 
         if (other.gameObject.tag == "SpikeyBush")
@@ -512,7 +512,10 @@ public class PlayerController : MonoBehaviour
     {
         //Instantiate(deathChunkParticle, transform.position, deathChunkParticle.transform.rotation);   //can be used for effects on death
         //Instantiate(deathBloodParticle, transform.position, deathBloodParticle.transform.rotation);
+        
         GM.Respawn();
+        ScreenShake screenShake = FindObjectOfType<ScreenShake>();
+        screenShake.PlayerHasDIed();
         Destroy(gameObject);
     }
 
