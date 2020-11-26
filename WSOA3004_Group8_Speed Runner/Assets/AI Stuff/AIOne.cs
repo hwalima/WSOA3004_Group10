@@ -21,7 +21,7 @@ public class AIOne : MonoBehaviour
     bool aiAwake=false;
     float radiusOfCircle=3f;
 
-    bool isChasingPlayer=false;
+    public bool isChasingPlayer=false;
 
     public float maxChaseTime = 20f;
     float chaseTimer = 20f;

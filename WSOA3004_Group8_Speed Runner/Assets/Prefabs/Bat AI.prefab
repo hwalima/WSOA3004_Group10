@@ -215,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 600
   nextWayPointDistance: 1
+  isChasingPlayer: 0
   maxChaseTime: 10
   areaObj1: {fileID: 8876919688218821817}
   areaObj2: {fileID: 3944494031088132926}
@@ -280,6 +281,7 @@ GameObject:
   - component: {fileID: 5129562712221789574}
   - component: {fileID: 5129562712221789575}
   - component: {fileID: 3457990999101564227}
+  - component: {fileID: 6204749863563833365}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -370,6 +372,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6204749863563833365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129562712221789577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e2eebbf9085ba7499f62c138f40c619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiOneScript: {fileID: 5129562711724894373}
 --- !u!1 &8876919688218821817
 GameObject:
   m_ObjectHideFlags: 0
