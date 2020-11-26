@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Tilemaps;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -506,6 +507,12 @@ public class PlayerController : MonoBehaviour
            
             
         }
+
+        if (other.gameObject.CompareTag("EndGame"))
+        {
+            StartCoroutine(EndGame());
+            
+        }
     }
     
     private void Die()
@@ -736,16 +743,9 @@ public class PlayerController : MonoBehaviour
                 collision.gameObject.GetComponent<Animator>().SetTrigger("idle");
             }
             Die();
-
             
-
-           
         }
-
-       
-
-
-
+        
 
     }
  
@@ -762,7 +762,11 @@ public class PlayerController : MonoBehaviour
         onFallingBridge = true;
         rb.velocity = new Vector2(0, -hoveringSpeed*2);
     }
-  
 
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("EndCutScene");
+    }
 
 }

@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 23af72242783bb8468aa793cca01ac20
   - enabled: 1
+    path: Assets/Scenes/BeginingCutScene.unity
+    guid: 6c018f655ac2598489018ab3189044b8
+  - enabled: 1
     path: Assets/Scenes/NoelForestLevel.unity
     guid: 97b2b51e1dac8c94bb6bae0adb291e49
+  - enabled: 1
+    path: Assets/Scenes/EndCutScene.unity
+    guid: 27ffebbba3c880f44813590321779dd9
   m_configObjects: {}

@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("NoelForestLevel");
+        SceneManager.LoadScene("BeginingCutScene");
         GameManager.hopToRuins = false;
     }
     public void SkipToRuins()

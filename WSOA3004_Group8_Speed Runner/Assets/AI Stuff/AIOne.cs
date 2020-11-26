@@ -64,12 +64,12 @@ public class AIOne : MonoBehaviour
         {
             if (target == null)
             {
+                animator.Play("idle");
                 isChasingPlayer = false;
                 StartCoroutine(FindPlayerWait());
                 if (findPlayer != null)
                 {
                     target = findPlayer;
-                    animator.Play("chase");
                 }
             }
 
@@ -164,7 +164,8 @@ public class AIOne : MonoBehaviour
             {
                 if (seekPlayer.gameObject.tag == "Player")
                 {
-                    isChasingPlayer = true;                   
+                    isChasingPlayer = true;
+                    animator.Play("chase");
                 }
             }
         }

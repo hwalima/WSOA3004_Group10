@@ -21,6 +21,7 @@ TagManager:
   - CinemachineCam
   - tutorialTextPos
   - Yay i can Text Pos
+  - EndGame
   layers:
   - Default
   - TransparentFX

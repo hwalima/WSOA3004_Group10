@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("hop=true");
            // hopToRuins = false;
         }
+
+
     }
 
     private void Update()
