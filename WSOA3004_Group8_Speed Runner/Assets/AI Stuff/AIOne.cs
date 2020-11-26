@@ -41,7 +41,7 @@ public class AIOne : MonoBehaviour
 
     bool moveToStart = false;
 
-    Animator animator;
+   public  Animator animator;
     //checks if there is that rock that stops the bats from pursuing the player;
     private void Start()
     {
@@ -54,7 +54,7 @@ public class AIOne : MonoBehaviour
         chaseTimer = maxChaseTime;
         startPosition = transform.position;
         aiChaseLight.SetActive(false);
-        animator = GetComponent<Animator>();
+     //   animator = GetComponent<Animator>();
         animator.Play("idle");
     }
 
