@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
             unlockedAbilityTextHolder.gameObject.SetActive(false);
             lToContinue.gameObject.SetActive(false);
             hasWrittenTutorialText = false;
+            tutorialTextComponent.text = ""; 
         }
 
        
